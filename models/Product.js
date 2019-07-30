@@ -36,6 +36,8 @@ const transform = (doc, ret) => {
   delete ret._id
   delete ret.__v
 }
+
+productSchema.index({ name: 1 }, { unique: true })
 productSchema.loadClass(ProductClass)
 productSchema.set('toObject', { transform })
 productSchema.set('toJSON', { transform })

@@ -9,25 +9,27 @@ const { users, products } = require('../sample')
 
 mongoose.connect(config.Database.Uri, {
   useNewUrlParser: true,
-  useCreateIndex: true,
   useFindAndModify: false
 })
 
-const productTasks = products.map(p => Product.create(p))
-const userTasks = users.map(p => User.register(p))
+const foo = async () => {
+  if (await User.find()) {
+    await User.collection.drop()
+  }
+  if (await Product.find()) {
+    await Product.collection.drop()
+  }
+  const userTasks = users.map(u => User.register(u))
+  const productTasks = products.map(p => Product.create(p))
+  await Promise.all(userTasks)
+  await Promise.all(productTasks)
+  await mongoose.disconnect()
+}
 
-User.collection.drop().then(() => {
-  return Product.collection.drop()
-})
+foo()
   .then(() => {
-    return Promise.all(productTasks)
+    console.log(`Initialized database with ${products.length} products and ${users.length} users. Bye.`)
   })
-  .then(() => {
-    return Promise.all(userTasks)
-  })
-  .then(() => {
-    return mongoose.disconnect()
-  })
-  .then(() => {
-    console.log(`Initialized database with ${products.length} producets and ${users.length} users. Bye.`)
+  .catch(err => {
+    console.log(err)
   })
