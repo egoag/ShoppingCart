@@ -1,0 +1,7 @@
+Server:
+  Addr: '127.0.0.1'
+  Port: 3000
+  Secret: "SHOPPINGCART"
+Database:
+  Uri: 'mongodb://localhost/test'
+  

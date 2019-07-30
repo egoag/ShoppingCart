@@ -1,0 +1,33 @@
+#!/usr/bin/env node
+
+const mongoose = require('mongoose')
+
+const config = require('../config')
+const { User } = require('../models/User')
+const { Product } = require('../models/Product')
+const { users, products } = require('../sample')
+
+mongoose.connect(config.Database.Uri, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useFindAndModify: false
+})
+
+const productTasks = products.map(p => Product.create(p))
+const userTasks = users.map(p => User.register(p))
+
+User.collection.drop().then(() => {
+  return Product.collection.drop()
+})
+  .then(() => {
+    return Promise.all(productTasks)
+  })
+  .then(() => {
+    return Promise.all(userTasks)
+  })
+  .then(() => {
+    return mongoose.disconnect()
+  })
+  .then(() => {
+    console.log(`Initialized database with ${products.length} producets and ${users.length} users. Bye.`)
+  })
