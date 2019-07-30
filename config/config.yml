@@ -3,5 +3,4 @@ Server:
   Port: 3000
   Secret: "SHOPPINGCART"
 Database:
-  Uri: 'mongodb://localhost/test'
-  
+  Uri: 'mongodb://mongodb/test'

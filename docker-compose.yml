@@ -1,0 +1,12 @@
+version: '3.1'
+
+services:
+  mongodb:
+    image: mongo:latest
+    restart: always
+  backend:
+    image: shopping
+    restart: always
+    ports:
+      - 3000:3000
+
