@@ -47,7 +47,7 @@ class UserClass {
     if (!user) {
       throw new Error(`Username "${username}" not found.`)
     }
-    if (!bcrypt.compare(password, user.password)) {
+    if (!await bcrypt.compare(password, user.password)) {
       throw new Error(`Password not match.`)
     }
     return user
