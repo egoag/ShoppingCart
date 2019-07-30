@@ -90,6 +90,34 @@ class ShoppingCartClass {
     }
   }
 
+  popProduct (productId, quantity) {
+    const cartProduct = this.getCartProductByProductId(productId)
+    if (!cartProduct) {
+      throw new Error(`Product Id ${productId} not found`)
+    } else {
+      cartProduct.decrease(quantity)
+      if (cartProduct.quantity <= 0) {
+        cartProduct.remove()
+      }
+    }
+  }
+
+  async setQuantity (productId, quantity) {
+    const cartProduct = this.getCartProductByProductId(productId)
+    if (!cartProduct) {
+      const product = await Product.get(productId)
+      if (!product) {
+        throw new Error(`Product Id ${productId} not found`)
+      }
+      this.cartProducts.push(new CartProduct({ product, quantity }))
+    } else {
+      cartProduct.setQuantity(quantity)
+      if (cartProduct.quantity <= 0) {
+        cartProduct.remove()
+      }
+    }
+  }
+
   removeProduct (productId) {
     const cartProduct = this.getCartProductByProductId(productId)
     if (!cartProduct) {
