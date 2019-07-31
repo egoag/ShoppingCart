@@ -41,6 +41,16 @@ const { sign } = require('../libs/auth')
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/User'
+ *            examples:
+ *              alice:
+ *                value:
+ *                  username: alice
+ *                  password: alice
+ *              bobo:
+ *                value:
+ *                  username: bobo
+ *                  password: bobo
+
  *     responses:
  *       200:
  *         description: Success
